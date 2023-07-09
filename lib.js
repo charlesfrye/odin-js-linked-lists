@@ -22,7 +22,11 @@ const LinkedList = () => {
 
   // append(value) adds a new node containing value to the end of the list
   const append = (value) => {
-    tail().setNext(Node(value));
+    if (_head == null) {
+      prepend(value);
+    } else {
+      tail().setNext(Node(value));
+    }
   };
 
   // size returns the total number of nodes in the list
@@ -56,6 +60,10 @@ const LinkedList = () => {
     if (current == null) {
       return undefined; // this is probably bad practice, should throw an error instead
     }
+    if (!current.hasNext()) {
+      _head = null;
+      return current.getValue();
+    }
     let prev = null;
     while (current.hasNext()) {
       prev = current;
@@ -71,7 +79,7 @@ const LinkedList = () => {
     let current = _head;
     let count = 0;
     while (current != null) {
-      if (current.getValue() == value) {
+      if (current.getValue() === value) {
         return count;
       }
       count += 1;
@@ -147,3 +155,6 @@ console.log(LinkedList().pop()); // undefined
 console.log(ll.find(2)); // 1
 console.log(ll.find("foo")); // null
 console.log(ll.contains(3)); // false
+lf = LinkedList();
+lf.append("foo");
+console.log(lf.pop()); // foo
